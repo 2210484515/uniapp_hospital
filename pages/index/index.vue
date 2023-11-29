@@ -1,0 +1,282 @@
+<template>
+	<view class="container">
+		<view class="main">
+			<headerbg @sendDefault="getSonValue" :time="currentTime" :timeClock="clock"></headerbg>
+			<view class="departmentName" @tap="departClick">
+				<text v-if="departShow">科室名称</text>
+				<input v-else class="uni-input" @blur="departBlur" placeholder="请输入科室名称" />
+			</view>
+			<view class="departMain">
+				<view class="depart">
+					<image src="../../static/images/docker.jpg" mode="aspectFill"></image>
+					<text class="departZy" v-if="dockerDutyShow" @tap="dockerDutyClick">主治医师</text>
+					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生职位" />
+					<text v-if="dockerNameShow" class="departZy" @tap="dockerClick">黄小明</text>
+					<input v-else class="uni-input" @blur="dockerBlur" placeholder="请输入医生姓名" />
+					<text class="departNr" style="margin-top: 15rpx;">个人经历介绍:</text>
+					<view class="departNr" @tap="nrIntroClick">
+						<text v-if="nrIntroShow">擅长领域：心脏病诊疗、心脏手术
+							教育背景：XX医学院心脏内科专业，医学博士学位
+							个人风采：致力于为患者提供最专业的医疗服务，注重医患沟通，以患者为中心，关注患者的身心健康。</text>
+						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生的个人经历介绍" />
+					</view>
+				</view>
+				<view class="depart" style="margin-left: 20rpx;">
+					<text class="departIntroduce">科室介绍</text>
+					<text v-if="departIntroShow" class="deIntroContent" @tap="departIntroClick">
+						肛肠科是医院的重要临床科室之一，专注于诊治与肛门、直肠相关的疾病，提供全面的医疗服务和疾病预防工作。
+						专业特色：
+						肛肠镜检查：提供高质量的肛肠镜检查服务，早期发现和治疗肠道疾病，保障患者的健康。
+						微创治疗：肛肠科拥有先进的微创治疗设备，能够进行微创手术、激光治疗等，减少患者的疼痛和恢复时间。
+						医疗团队：
+						肛肠科拥有一支专业的医疗团队，包括资深的肛肠科医生、护士和技术人员，他们致力于为患者提供高质量的医疗护理和个性化的治疗方案。
+					</text>
+					<textarea v-else @blur="departIntroBlur" placeholder="请输入科室的介绍" />
+				</view>
+			</view>
+			<view class="conculation">
+				<text>正在就诊</text>
+				<text>欧阳娜娜</text>
+			</view>
+			<view style="font-size: 18rpx;margin: 10rpx 35rpx 10rpx;">等待就诊</view>
+			<uni-table class="unitable" ref="table" emptyText="暂无更多数据">
+				<uni-tr v-for="(item, index) in tableData" :key="index" :class="{'odd-row': isOdd(index)}">
+					<uni-td>{{ item.id }}</uni-td>
+					<uni-td>
+						<view class="name">{{ item.name }}</view>
+					</uni-td>
+				</uni-tr>
+			</uni-table>
+		</view>
+	</view>
+</template>
+
+<script>
+	import headerbg from "@/components/headerbg.vue"
+	export default {
+		data() {
+			return {
+				currentTime: '',
+				clock: '',
+				departShow: true,
+				nrIntroShow: true,
+				dockerNameShow: true,
+				dockerDutyShow: true,
+				departIntroShow: true,
+				tableData: [{
+					"id": "A0045",
+					"name": "曹栋梁"
+				}, {
+					"id": "A0046",
+					"name": "孙傲"
+				}, {
+					"id": "A0047",
+					"name": "杨润泽"
+				}, {
+					"id": "A0049",
+					"name": "王凯"
+				}, {
+					"id": "A0050",
+					"name": "韩丽"
+				}]
+			}
+		},
+		onLoad() {
+
+		},
+		components: {
+			headerbg
+		},
+		created() {
+			this.getCurrentTime();
+			setInterval(() => {
+				this.getCurrentTime();
+			}, 1000);
+		},
+		methods: {
+			getSonValue(res) {
+				this.topBarHeight = res;
+				console.log(res)
+			},
+			getCurrentTime() {
+				let date = new Date();
+				let year = date.getFullYear();
+				// 在日期格式中，月份是从0开始的，因此要加0，使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+				let month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				//获取星期几（0-6），其中0表示周日，1表示周一
+				let dayOfWeek = date.getDay();
+				//定义一个数组来存储星期几的名称
+				let weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+				let currentDayOfWeek = weekDays[dayOfWeek];
+				// 拼接
+				this.currentTime = year + "年" + month + "月" + day + "日 " + currentDayOfWeek;
+				this.clock = hours + ": " + minutes;
+			},
+			isOdd(index) {
+				return index % 2 !== 0;
+			},
+			departClick() {
+				this.departShow = false
+			},
+			nrIntroClick() {
+				this.nrIntroShow = false
+			},
+			dockerClick() {
+				this.dockerNameShow = false
+			},
+			dockerDutyClick() {
+				this.dockerDutyShow = false
+			},
+			departIntroClick() {
+				this.departIntroShow = false
+			},
+			departBlur() {
+				this.departShow = true
+			},
+			dockerBlur() {
+				this.dockerNameShow = true
+			},
+			dockerDutyBlur() {
+				this.dockerDutyShow = true
+			},
+			nrIntroBlur() {
+				this.nrIntroShow = true
+			},
+			departIntroBlur() {
+				this.departIntroShow = true
+			},
+		}
+	}
+</script>
+
+<style lang="scss">
+	.container {
+		height: 100vh;
+		width: 100%;
+		background-color: #EFEFEF;
+	}
+
+	.main {
+		margin: auto;
+		height: 97%;
+		width: 96%;
+		background-color: white;
+		margin-top: 15rpx;
+	}
+
+	.departmentName {
+		display: flex;
+		justify-content: center;
+		font-size: 30rpx;
+		margin-top: 30rpx;
+		height: 50rpx;
+	}
+
+	.departMain {
+		display: flex;
+		width: 97%;
+		height: 50%;
+		margin: auto;
+	}
+
+	.depart {
+		width: 49%;
+		height: 100%;
+		display: flex;
+		font-size: 18rpx;
+		flex-direction: column;
+
+		.departZy {
+			text-align: center;
+			width: 80%;
+			margin-top: 5rpx;
+			height: 35rpx;
+		}
+
+		.departNr {
+			line-height: 30rpx;
+			font-size: 18rpx;
+		}
+
+		.uni-input {
+			width: 300rpx;
+			height: 35rpx;
+			margin-top: 5rpx;
+		}
+
+		.departIntroduce {
+			margin-top: 20rpx;
+			margin-bottom: 20rpx;
+		}
+
+		.deIntroContent {
+			font-size: 18rpx;
+			line-height: 30rpx;
+		}
+	}
+
+	.depart textarea {
+		font-size: 18rpx;
+		width: 100%;
+	}
+
+	.depart image {
+		width: 80%;
+		height: 700rpx;
+	}
+
+	.uni-input {
+		width: 300rpx;
+		height: 100%;
+		text-align: center;
+		margin-top: -5rpx;
+	}
+
+	.conculation {
+		margin: auto;
+		width: 96%;
+		height: 45rpx;
+		background-color: #D8D8D8;
+		margin-top: 20rpx;
+		display: flex;
+		font-size: 18rpx;
+	}
+
+	.conculation text {
+		width: 50%;
+		margin-left: 20rpx;
+		margin-top: 10rpx;
+	}
+
+	.unitable {
+		font-size: 18rpx;
+		display: flex;
+		flex-direction: column;
+		width: 96%;
+		margin: auto;
+		background-color: #D8D8D8;
+	}
+
+	.unitable uni-tr {
+		display: flex;
+		height: 45rpx;
+		line-height: 45rpx;
+		padding-left: 20rpx;
+	}
+
+	.unitable uni-td {
+		width: 50%;
+
+		.name {
+			margin-left: 10rpx;
+		}
+	}
+
+	.odd-row {
+		background-color: #EFEFEF;
+	}
+</style>

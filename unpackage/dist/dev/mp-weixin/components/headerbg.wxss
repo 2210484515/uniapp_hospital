@@ -1,0 +1,15 @@
+.top_bgimg {
+  color: black;
+  font-size: 18rpx;
+}
+.top_cont {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+.top_cont image {
+  width: 200rpx;
+  height: 40rpx;
+  margin: 6rpx 10rpx 0 0;
+}
+
