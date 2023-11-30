@@ -1,0 +1,154 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.container {
+  height: 100vh;
+  width: 100%;
+  background-color: #EFEFEF;
+}
+.main {
+  margin: auto;
+  height: 97%;
+  width: 96%;
+  background-color: white;
+  margin-top: 15rpx;
+}
+.departmentName {
+  display: flex;
+  justify-content: center;
+  font-size: 30rpx;
+  margin-top: 30rpx;
+  height: 50rpx;
+}
+.departMain {
+  display: flex;
+  width: 97%;
+  height: 50%;
+  margin: auto;
+}
+.depart {
+  width: 49%;
+  height: 100%;
+  display: flex;
+  font-size: 18rpx;
+  flex-direction: column;
+}
+.depart .departZy {
+  text-align: center;
+  width: 80%;
+  margin-top: 5rpx;
+  height: 35rpx;
+}
+.depart .departNr {
+  line-height: 30rpx;
+  font-size: 18rpx;
+}
+.depart .uni-input {
+  width: 300rpx;
+  height: 35rpx;
+  margin-top: 5rpx;
+}
+.depart .departIntroduce {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+.depart .deIntroContent {
+  font-size: 18rpx;
+  line-height: 30rpx;
+}
+.depart textarea {
+  font-size: 18rpx;
+  width: 100%;
+}
+.depart image {
+  width: 80%;
+  height: 300rpx;
+}
+.uni-input {
+  width: 300rpx;
+  height: 100%;
+  text-align: center;
+  margin-top: -5rpx;
+}
+.conculation {
+  margin: auto;
+  width: 96%;
+  height: 45rpx;
+  background-color: #D8D8D8;
+  margin-top: 20rpx;
+  display: flex;
+  font-size: 18rpx;
+}
+.conculation text {
+  width: 50%;
+  margin-left: 20rpx;
+  margin-top: 10rpx;
+}
+.unitable {
+  font-size: 18rpx;
+  display: flex;
+  flex-direction: column;
+  width: 96%;
+  margin: auto;
+  background-color: #D8D8D8;
+}
+.unitable uni-tr {
+  display: flex;
+  height: 45rpx;
+  line-height: 45rpx;
+  padding-left: 20rpx;
+}
+.unitable uni-td {
+  width: 50%;
+}
+.unitable uni-td .name {
+  margin-left: 10rpx;
+}
+.odd-row {
+  background-color: #EFEFEF;
+}
+.deviceIp {
+  width: 96%;
+  height: 40rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  display: flex;
+  font-size: 18rpx;
+}
+.deviceIp image {
+  width: 20rpx;
+  height: 20rpx;
+  margin-top: 2rpx;
+}
+.deviceIp text {
+  margin-right: 20rpx;
+}
+.deviceIp .imgLogo {
+  width: 40rpx;
+  margin-top: -10rpx;
+  height: 40rpx;
+}
+

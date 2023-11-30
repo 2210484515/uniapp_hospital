@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/subScreen"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "navigationStyle": "custom",
+    "rpxCalcMaxDeviceWidth": 1080,
+    "rpxCalcBaseDeviceWidth": 375,
+    "rpxCalcIncludeWidth": 750
+  },
+  "usingComponents": {}
+}

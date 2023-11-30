@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "uni-app",
+  "usingComponents": {
+    "headerbg": "/components/headerbg"
+  }
+}
