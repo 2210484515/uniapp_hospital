@@ -4,21 +4,21 @@
 			<headerbg @sendDefault="getSonValue" :time="currentTime" :timeClock="clock"></headerbg>
 			<view class="departmentName" @tap="departClick">
 				<text v-if="departShow">{{departData.name}}</text>
-				<input v-else class="uni-input" @blur="departBlur" placeholder="请输入科室名称" />
+				<input v-else class="uni-input" @blur="departBlur" placeholder="请输入科室的名称" />
 			</view>
 			<view class="departMain">
 				<view class="depart">
 					<image src="../../static/images/docker.jpg" mode="aspectFill"></image>
 					<text class="departZy" style="margin-top: 10rpx;" v-if="dockerDutyShow"
 						@tap="dockerDutyClick">{{doctorData.position}}</text>
-					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生职位"
+					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生的职位"
 						style="margin-top: 10rpx;" />
 					<text v-if="dockerNameShow" class="departZy" @tap="dockerClick">{{doctorData.docName}}</text>
 					<input v-else class="uni-input" @blur="dockerBlur" placeholder="请输入医生姓名" />
 					<text class="departNr" style="margin-top: 15rpx;">个人经历介绍:</text>
 					<view class="departNr" @tap="nrIntroClick">
 						<text v-if="nrIntroShow">{{doctorData.description}}</text>
-						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生1的个人经历介绍" />
+						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生的个人经历介绍" />
 					</view>
 				</view>
 				<view class="depart" style="margin-left: 20rpx;">
@@ -26,7 +26,7 @@
 					<text v-if="departIntroShow" class="deIntroContent" @tap="departIntroClick">
 						{{departData.description}}
 					</text>
-					<textarea v-else @blur="departIntroBlur" placeholder="输入科室介绍" />
+					<textarea v-else @blur="departIntroBlur" placeholder="请输入科室的介绍" />
 				</view>
 			</view>
 			<view class="conculation">
