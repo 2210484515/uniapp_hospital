@@ -151,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -166,6 +166,10 @@ var headerbg = function headerbg() {
 var _default = {
   data: function data() {
     return {
+      imageList: '',
+      // 选中的图片路径
+      placeholderImage: '../../static/images/docker.jpg',
+      // 自定义的占位图路径
       departData: {},
       doctorData: {},
       currentTime: '',
@@ -196,16 +200,26 @@ var _default = {
     }, 1000);
   },
   methods: {
+    chooseImage: function chooseImage() {
+      var _this2 = this;
+      uni.chooseImage({
+        count: 1,
+        success: function success(res) {
+          _this2.imageList = res.tempFilePaths[0];
+          // 在这里执行上传图片的逻辑
+        }
+      });
+    },
     //每5调用一次
     getTimeMsg: function getTimeMsg() {
-      var _this2 = this;
+      var _this3 = this;
       this.getDepartMentmsg(1);
       this.getDoctormsg(1);
       this.getQueueMsg(1);
       setInterval(function () {
-        _this2.getDepartMentmsg(1);
-        _this2.getDoctormsg(1);
-        _this2.getQueueMsg(1);
+        _this3.getDepartMentmsg(1);
+        _this3.getDoctormsg(1);
+        _this3.getQueueMsg(1);
       }, 5000);
     },
     getSonValue: function getSonValue(res) {
@@ -214,37 +228,37 @@ var _default = {
     },
     //调用部门信息
     getDepartMentmsg: function getDepartMentmsg(id) {
-      var _this3 = this;
+      var _this4 = this;
       (0, _index.getDepartment)(id).then(function (res) {
         if (res.code == 200) {
-          _this3.departData = res.data;
+          _this4.departData = res.data;
         }
       });
     },
     //调用医生信息
     getDoctormsg: function getDoctormsg(id) {
-      var _this4 = this;
+      var _this5 = this;
       (0, _index.getDoctor)(id).then(function (res) {
         if (res.code == 200) {
-          _this4.doctorData = res.data;
+          _this5.doctorData = res.data;
         }
       });
     },
     //调用病人排队信息
     getQueueMsg: function getQueueMsg(id) {
-      var _this5 = this;
+      var _this6 = this;
       (0, _index.getQueue)("id=" + id).then(function (res) {
         if (res.code == 200) {
-          _this5.patientQueueData = [];
-          _this5.patientNowQueueData = [];
+          _this6.patientQueueData = [];
+          _this6.patientNowQueueData = [];
           for (var i = 0; i < res.data.length; i++) {
             if (res.data[i].status == 3) {
-              _this5.$set(_this5.patientQueueData, i, res.data[i]);
+              _this6.$set(_this6.patientQueueData, i, res.data[i]);
             } else {
-              _this5.$set(_this5.patientNowQueueData, i, res.data[i]);
+              _this6.$set(_this6.patientNowQueueData, i, res.data[i]);
             }
           }
-          _this5.patientQueueData = _this5.patientQueueData.filter(function (item) {
+          _this6.patientQueueData = _this6.patientQueueData.filter(function (item) {
             return item.id !== '';
           }); //清除数据列表中的空数据 
         }
@@ -304,6 +318,7 @@ var _default = {
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
 

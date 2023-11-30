@@ -96,7 +96,7 @@
 
 					// 跳转到主界面
 					uni.redirectTo({
-						url: './test/test'
+						url: '../index/index'
 					});
 				} catch (error) {
 					// 异常处理代码

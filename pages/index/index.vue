@@ -8,7 +8,8 @@
 			</view>
 			<view class="departMain">
 				<view class="depart">
-					<image src="../../static/images/docker.jpg" mode="aspectFill"></image>
+					<!-- <image src="../../static/images/docker.jpg" mode="aspectFill"></image> -->
+					<image :src="imageList || placeholderImage" mode="aspectFill" @click="chooseImage()""></image>
 					<text class="departZy" style="margin-top: 10rpx;" v-if="dockerDutyShow"
 						@tap="dockerDutyClick">{{doctorData.position}}</text>
 					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生的职位"
@@ -70,6 +71,8 @@
 	export default {
 		data() {
 			return {
+				imageList: '', // 选中的图片路径
+				placeholderImage: '../../static/images/docker.jpg' ,// 自定义的占位图路径
 				departData: {},
 				doctorData: {},
 				currentTime: '',
@@ -99,6 +102,15 @@
 			}, 1000);
 		},
 		methods: {
+			chooseImage() {
+			      uni.chooseImage({
+			        count: 1,
+			        success: (res) => {
+			          this.imageList = res.tempFilePaths[0];
+			          // 在这里执行上传图片的逻辑
+			        }
+			      });
+			    },
 			//每5调用一次
 			getTimeMsg() {
 				this.getDepartMentmsg(1)
@@ -135,7 +147,7 @@
 					"id=" + id
 				).then(res => {
 					if (res.code == 200) {
-						this.patientQueueData = []; 
+						this.patientQueueData = [];
 						this.patientNowQueueData = [];
 						for (var i = 0; i < res.data.length; i++) {
 							if (res.data[i].status == 3) {
@@ -145,7 +157,7 @@
 							}
 						}
 						this.patientQueueData = this.patientQueueData.filter(item => item.id !==
-						''); //清除数据列表中的空数据 
+							''); //清除数据列表中的空数据 
 					}
 				})
 			},
