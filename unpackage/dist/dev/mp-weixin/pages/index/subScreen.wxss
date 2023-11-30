@@ -41,8 +41,9 @@
 }
 .select {
   display: flex;
+  margin: auto;
   margin-top: 100rpx;
-  margin-left: 100rpx;
+  width: 60%;
 }
 .data {
   margin-left: 50rpx;

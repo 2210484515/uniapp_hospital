@@ -8,8 +8,8 @@
 			</view>
 			<!--4 两个按钮 一个确认，一个取消-->
 			<view class="button">
-				<button type="submit" class="bon1" @click="onSubmit()" size="default">O 确认</button>
-				<button type="reset" class="bon2" @click="onReset( )" size="default">O 取消</button>
+				<button type="submit" class="bon1" @click="onSubmit()" size="default">确认</button>
+				<button type="reset" class="bon2" @click="onReset()" size="default">取消</button>
 			</view>
 
 		</view>
@@ -104,10 +104,8 @@
 				}
 			},
 			onReset() {
-				console.log("取消")
-				//点击“取消”，自动转跳到主界面，不改变界面内任何设置内容。
 				uni.redirectTo({
-					url: './test/test'
+					url: '../index/index'
 				});
 			},
 			change() {
@@ -138,8 +136,9 @@
 
 	.select {
 		display: flex;
+		margin: auto;
 		margin-top: 100rpx;
-		margin-left: 100rpx;
+		width: 60%;
 	}
 
 	.data {

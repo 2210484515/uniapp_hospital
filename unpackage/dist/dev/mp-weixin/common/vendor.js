@@ -9590,8 +9590,138 @@ function normalizeComponent (
 /* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */,
-/* 40 */,
+/* 39 */
+/*!************************************************************************!*\
+  !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/api/index.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getDepartment = getDepartment;
+exports.getDoctor = getDoctor;
+exports.getQueue = getQueue;
+var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 40));
+//封装具体的接口调用
+
+//获取排队信息
+function getQueue(params) {
+  return _request.default.get('/dev-api/system/information/Nowlist?' + params, "");
+}
+//获取科室信息
+function getDepartment(params) {
+  return _request.default.get('/dev-api/system/department/' + params);
+}
+//获取医生信息
+function getDoctor(params) {
+  return _request.default.get('/dev-api/system/doc/' + params);
+}
+
+/***/ }),
+/* 40 */
+/*!**************************************************************************!*\
+  !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/api/request.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var http = {
+  baseUrl: 'http://172.16.3.52:81',
+  //请求方法
+  request: function request(config) {
+    //config:请求配置对象,参照uniapp文档
+    config.url = this.baseUrl + config.url;
+    //创建一个Promise对象，在里面发送请求
+    return new Promise(function (resolve, reject) {
+      uni.request(config).then(function (res) {
+        var response = res.data;
+        resolve(response);
+      }).catch(function (err) {
+        errorHandle(err);
+        reject(err);
+      });
+    });
+  },
+  get: function get(url, data) {
+    return this.request({
+      url: url,
+      data: data,
+      method: "GET"
+    });
+  },
+  post: function post(url, data) {
+    return this.request({
+      url: url,
+      data: data,
+      method: "POST"
+    });
+  }
+};
+//请求拦截器
+var beforeRequest = function beforeRequest(config) {
+  //请求之前做的操作
+  console.log('请求拦截器:', config);
+  config.header = {};
+  //判断该接口是否需要携带token
+  if (config.auth) {
+    if (uni.getStorageSync('token')) {
+      //在请求头添加token
+      config.header['token'] = uni.getStorageSync('token');
+      if (uni.getStorageSync('communityId')) {
+        config.header['community_id'] = uni.getStorageSync('communityId');
+      }
+    } else {
+      //没有登陆,无访问权限，重定向到登录页面
+
+      uni.showModal({
+        title: '提示',
+        content: '您尚未登录，无访问权限，请登录',
+        success: function success(res) {
+          if (res.confirm) {
+            // 确定按钮被点击
+            uni.navigateTo({
+              url: '/pages/login/loginPhone'
+            });
+          } else {
+            uni.navigateTo({
+              url: '/pages/login/loginPhone'
+            });
+          }
+        }
+      });
+    }
+  }
+  return config;
+};
+
+//响应拦截器
+var beforeResponse = function beforeResponse(response) {
+  console.log('响应拦截器:', response);
+  return response;
+};
+
+//异常处理器
+var errorHandle = function errorHandle(err) {
+  console.log('网络异常,请求失败!', err);
+};
+var _default = http;
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
 /* 41 */,
 /* 42 */,
 /* 43 */,
@@ -9613,7 +9743,8 @@ function normalizeComponent (
 /* 59 */,
 /* 60 */,
 /* 61 */,
-/* 62 */
+/* 62 */,
+/* 63 */
 /*!************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/uni-cloud/dist/index.js ***!
   \************************************************************************************/
@@ -9628,20 +9759,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 63));
+var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 64));
 var _slicedToArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ 5));
 var _typeof2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/typeof */ 13));
 var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
-var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 65));
+var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 66));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ 23));
 var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ 24));
-var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 66));
-var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 67));
-var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 69));
-var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 70));
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ 67));
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ 68));
+var _getPrototypeOf2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ 70));
+var _wrapNativeSuper2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/wrapNativeSuper */ 71));
 var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 22);
-var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 72));
+var _pages = _interopRequireDefault(__webpack_require__(/*! @/pages.json */ 73));
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e33) { throw _e33; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e34) { didErr = true; err = _e34; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
@@ -10057,7 +10188,7 @@ var y = "development" === "development",
 var T = "";
 try {
   {
-    var _e2 = __webpack_require__(/*! uni-stat-config */ 73).default || __webpack_require__(/*! uni-stat-config */ 73);
+    var _e2 = __webpack_require__(/*! uni-stat-config */ 74).default || __webpack_require__(/*! uni-stat-config */ 74);
     T = _e2.appid;
   }
 } catch (e) {}
@@ -16523,7 +16654,7 @@ exports.default = Ps;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3), __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/wx.js */ 1)["default"]))
 
 /***/ }),
-/* 63 */
+/* 64 */
 /*!************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/@babel/runtime/regenerator/index.js ***!
   \************************************************************************************************/
@@ -16532,11 +16663,11 @@ exports.default = Ps;
 
 // TODO(Babel 8): Remove this file.
 
-var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 64)();
+var runtime = __webpack_require__(/*! @babel/runtime/helpers/regeneratorRuntime */ 65)();
 module.exports = runtime;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /*!*******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
   \*******************************************************************/
@@ -16857,7 +16988,7 @@ function _regeneratorRuntime() {
 module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
   \*****************************************************************/
@@ -16897,7 +17028,7 @@ function _asyncToGenerator(fn) {
 module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /*!*********************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
   \*********************************************************/
@@ -16924,7 +17055,7 @@ function _inherits(subClass, superClass) {
 module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /*!**************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
   \**************************************************************************/
@@ -16932,7 +17063,7 @@ module.exports = _inherits, module.exports.__esModule = true, module.exports["de
 /***/ (function(module, exports, __webpack_require__) {
 
 var _typeof = __webpack_require__(/*! ./typeof.js */ 13)["default"];
-var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 68);
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized.js */ 69);
 function _possibleConstructorReturn(self, call) {
   if (call && (_typeof(call) === "object" || typeof call === "function")) {
     return call;
@@ -16944,7 +17075,7 @@ function _possibleConstructorReturn(self, call) {
 module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /*!**********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
   \**********************************************************************/
@@ -16960,7 +17091,7 @@ function _assertThisInitialized(self) {
 module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /*!***************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
   \***************************************************************/
@@ -16976,16 +17107,16 @@ function _getPrototypeOf(o) {
 module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /*!****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/wrapNativeSuper.js ***!
   \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 69);
+var getPrototypeOf = __webpack_require__(/*! ./getPrototypeOf.js */ 70);
 var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf.js */ 16);
-var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 71);
+var isNativeFunction = __webpack_require__(/*! ./isNativeFunction.js */ 72);
 var construct = __webpack_require__(/*! ./construct.js */ 15);
 function _wrapNativeSuper(Class) {
   var _cache = typeof Map === "function" ? new Map() : undefined;
@@ -17016,7 +17147,7 @@ function _wrapNativeSuper(Class) {
 module.exports = _wrapNativeSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/isNativeFunction.js ***!
   \*****************************************************************/
@@ -17029,7 +17160,7 @@ function _isNativeFunction(fn) {
 module.exports = _isNativeFunction, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /*!***************************************************************************************************!*\
   !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/pages.json?{"type":"origin-pages-json"} ***!
   \***************************************************************************************************/
@@ -17050,7 +17181,7 @@ var _default = {
       "navigationBarTitleText": "uni-app"
     }
   }, {
-    "path": "pages/index/subScreen/subScreen",
+    "path": "pages/index/subScreen",
     "style": {
       "navigationBarTitleText": "",
       "enablePullDownRefresh": false
@@ -17071,7 +17202,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /*!**************************************************************************************!*\
   !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/pages.json?{"type":"stat"} ***!
   \**************************************************************************************/
@@ -17091,14 +17222,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 74 */,
 /* 75 */,
 /* 76 */,
 /* 77 */,
 /* 78 */,
 /* 79 */,
 /* 80 */,
-/* 81 */
+/* 81 */,
+/* 82 */
 /*!***************************************************************************************************************!*\
   !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/uni_modules/uni-icons/components/uni-icons/icons.js ***!
   \***************************************************************************************************************/
@@ -18117,145 +18248,6 @@ var _default = {
   }]
 };
 exports.default = _default;
-
-/***/ }),
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */
-/*!************************************************************************!*\
-  !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/api/index.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ 4);
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getDepartment = getDepartment;
-exports.getDoctor = getDoctor;
-exports.getQueue = getQueue;
-var _request = _interopRequireDefault(__webpack_require__(/*! ./request.js */ 90));
-//封装具体的接口调用
-
-//获取排队信息
-function getQueue(params) {
-  return _request.default.get('/dev-api/system/information/Nowlist?' + params, "");
-}
-//获取科室信息
-function getDepartment(params) {
-  return _request.default.get('/dev-api/system/department/' + params);
-}
-//获取医生信息
-function getDoctor(params) {
-  return _request.default.get('/dev-api/system/doc/' + params);
-}
-
-/***/ }),
-/* 90 */
-/*!**************************************************************************!*\
-  !*** E:/Program Files/ideacun/hospital/OutpatientDisplay/api/request.js ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var http = {
-  baseUrl: 'http://172.16.3.52:81',
-  //请求方法
-  request: function request(config) {
-    //config:请求配置对象,参照uniapp文档
-    config.url = this.baseUrl + config.url;
-    //创建一个Promise对象，在里面发送请求
-    return new Promise(function (resolve, reject) {
-      uni.request(config).then(function (res) {
-        var response = res.data;
-        resolve(response);
-      }).catch(function (err) {
-        errorHandle(err);
-        reject(err);
-      });
-    });
-  },
-  get: function get(url, data) {
-    return this.request({
-      url: url,
-      data: data,
-      method: "GET"
-    });
-  },
-  post: function post(url, data) {
-    return this.request({
-      url: url,
-      data: data,
-      method: "POST"
-    });
-  }
-};
-//请求拦截器
-var beforeRequest = function beforeRequest(config) {
-  //请求之前做的操作
-  console.log('请求拦截器:', config);
-  config.header = {};
-  //判断该接口是否需要携带token
-  if (config.auth) {
-    if (uni.getStorageSync('token')) {
-      //在请求头添加token
-      config.header['token'] = uni.getStorageSync('token');
-      if (uni.getStorageSync('communityId')) {
-        config.header['community_id'] = uni.getStorageSync('communityId');
-      }
-    } else {
-      //没有登陆,无访问权限，重定向到登录页面
-
-      uni.showModal({
-        title: '提示',
-        content: '您尚未登录，无访问权限，请登录',
-        success: function success(res) {
-          if (res.confirm) {
-            // 确定按钮被点击
-            uni.navigateTo({
-              url: '/pages/login/loginPhone'
-            });
-          } else {
-            uni.navigateTo({
-              url: '/pages/login/loginPhone'
-            });
-          }
-        }
-      });
-    }
-  }
-  return config;
-};
-
-//响应拦截器
-var beforeResponse = function beforeResponse(response) {
-  console.log('响应拦截器:', response);
-  return response;
-};
-
-//异常处理器
-var errorHandle = function errorHandle(err) {
-  console.log('网络异常,请求失败!', err);
-};
-var _default = http;
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ })
 ]]);

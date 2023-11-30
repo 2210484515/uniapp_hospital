@@ -33,8 +33,8 @@
 		},
 		methods:{
 			gotoPage(){
-				uni.navigateTo({
-					url:'/pages/index/subScreen/subScreen'
+				uni.redirectTo({
+					url:'/pages/index/subScreen'
 				})
 			}
 		},

@@ -1,7 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/subScreen/subScreen"
+    "pages/index/subScreen"
   ],
   "subPackages": [],
   "window": {
