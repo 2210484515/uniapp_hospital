@@ -9622,6 +9622,10 @@ function getDepartment(params) {
 function getDoctor(params) {
   return _request.default.get('/dev-api/system/doc/' + params);
 }
+//页面初始化获取的信息
+// export function getLoadingMsg(params) {
+// 	return http.get('dev-api/system/room/init?' + params,"")
+// }
 
 /***/ }),
 /* 40 */

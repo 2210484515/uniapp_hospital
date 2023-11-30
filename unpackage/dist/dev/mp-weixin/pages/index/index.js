@@ -102,7 +102,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.tableData, function (item, index) {
+  var l0 = _vm.__map(_vm.patientQueueData, function (item, index) {
     var $orig = _vm.__get_orig(item)
     var m0 = _vm.isOdd(index)
     return {
@@ -167,6 +167,7 @@ var _default = {
   data: function data() {
     return {
       departData: {},
+      doctorData: {},
       currentTime: '',
       clock: '',
       deviceIp: '192.168.21.255',
@@ -177,34 +178,12 @@ var _default = {
       dockerNameShow: true,
       dockerDutyShow: true,
       departIntroShow: true,
-      baseFormData: {
-        name: '',
-        age: '',
-        introduction: '',
-        sex: 2,
-        hobby: [5],
-        datetimesingle: 1627529992399
-      },
-      tableData: [{
-        "id": "A0045",
-        "name": "曹栋梁"
-      }, {
-        "id": "A0046",
-        "name": "孙傲"
-      }, {
-        "id": "A0047",
-        "name": "杨润泽"
-      }, {
-        "id": "A0049",
-        "name": "王凯"
-      }, {
-        "id": "A0050",
-        "name": "韩丽"
-      }]
+      patientNowQueueData: [],
+      patientQueueData: []
     };
   },
   onShow: function onShow() {
-    this.getDepartMentmsg(2);
+    this.getTimeMsg();
   },
   components: {
     headerbg: headerbg
@@ -217,15 +196,57 @@ var _default = {
     }, 1000);
   },
   methods: {
+    //每5调用一次
+    getTimeMsg: function getTimeMsg() {
+      var _this2 = this;
+      this.getDepartMentmsg(1);
+      this.getDoctormsg(1);
+      this.getQueueMsg(1);
+      setInterval(function () {
+        _this2.getDepartMentmsg(1);
+        _this2.getDoctormsg(1);
+        _this2.getQueueMsg(1);
+      }, 5000);
+    },
     getSonValue: function getSonValue(res) {
       this.topBarHeight = res;
       console.log(res);
     },
+    //调用部门信息
     getDepartMentmsg: function getDepartMentmsg(id) {
-      var _this2 = this;
+      var _this3 = this;
       (0, _index.getDepartment)(id).then(function (res) {
         if (res.code == 200) {
-          _this2.departData = res.data;
+          _this3.departData = res.data;
+        }
+      });
+    },
+    //调用医生信息
+    getDoctormsg: function getDoctormsg(id) {
+      var _this4 = this;
+      (0, _index.getDoctor)(id).then(function (res) {
+        if (res.code == 200) {
+          _this4.doctorData = res.data;
+        }
+      });
+    },
+    //调用病人排队信息
+    getQueueMsg: function getQueueMsg(id) {
+      var _this5 = this;
+      (0, _index.getQueue)("id=" + id).then(function (res) {
+        if (res.code == 200) {
+          _this5.patientQueueData = [];
+          _this5.patientNowQueueData = [];
+          for (var i = 0; i < res.data.length; i++) {
+            if (res.data[i].status == 3) {
+              _this5.$set(_this5.patientQueueData, i, res.data[i]);
+            } else {
+              _this5.$set(_this5.patientNowQueueData, i, res.data[i]);
+            }
+          }
+          _this5.patientQueueData = _this5.patientQueueData.filter(function (item) {
+            return item.id !== '';
+          }); //清除数据列表中的空数据 
         }
       });
     },

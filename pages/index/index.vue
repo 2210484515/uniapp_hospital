@@ -10,16 +10,14 @@
 				<view class="depart">
 					<image src="../../static/images/docker.jpg" mode="aspectFill"></image>
 					<text class="departZy" style="margin-top: 10rpx;" v-if="dockerDutyShow"
-						@tap="dockerDutyClick">主治医师</text>
+						@tap="dockerDutyClick">{{doctorData.position}}</text>
 					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生职位"
 						style="margin-top: 10rpx;" />
-					<text v-if="dockerNameShow" class="departZy" @tap="dockerClick">黄小明</text>
+					<text v-if="dockerNameShow" class="departZy" @tap="dockerClick">{{doctorData.docName}}</text>
 					<input v-else class="uni-input" @blur="dockerBlur" placeholder="请输入医生姓名" />
 					<text class="departNr" style="margin-top: 15rpx;">个人经历介绍:</text>
 					<view class="departNr" @tap="nrIntroClick">
-						<text v-if="nrIntroShow">擅长领域：心脏病诊疗、心脏手术
-							教育背景：XX医学院心脏内科专业，医学博士学位
-							个人风采：致力于为患者提供最专业的医疗服务，注重医患沟通，以患者为中心，关注患者的身心健康。</text>
+						<text v-if="nrIntroShow">{{doctorData.description}}</text>
 						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生的个人经历介绍" />
 					</view>
 				</view>
@@ -33,14 +31,14 @@
 			</view>
 			<view class="conculation">
 				<text>正在就诊</text>
-				<text>欧阳娜娜</text>
+				<text v-for="(item, index) in patientNowQueueData" :key="index">{{item.patientName}}</text>
 			</view>
 			<view style="font-size: 18rpx;margin: 10rpx 35rpx 10rpx;">等待就诊</view>
 			<uni-table class="unitable" ref="table" emptyText="暂无更多数据">
-				<uni-tr v-for="(item, index) in tableData" :key="index" :class="{'odd-row': isOdd(index)}">
-					<uni-td>{{ item.id }}</uni-td>
+				<uni-tr v-for="(item, index) in patientQueueData" :key="index" :class="{'odd-row': isOdd(index)}">
+					<uni-td>{{ item.id}}</uni-td>
 					<uni-td>
-						<view class="name">{{ item.name }}</view>
+						<view class="name">{{ item.patientName }}</view>
 					</uni-td>
 				</uni-tr>
 			</uni-table>
@@ -53,7 +51,6 @@
 							<text>{{vsNumber}}</text>
 							<image src="../../static/images/logo2.png" class="imgLogo" mode="aspectFill">
 								<text>佳人生活国际有限公司</text>
-
 			</view>
 		</view>
 	</view>
@@ -64,10 +61,17 @@
 	import {
 		getDepartment
 	} from "@/api/index.js"
+	import {
+		getDoctor
+	} from "@/api/index.js"
+	import {
+		getQueue
+	} from "@/api/index.js"
 	export default {
 		data() {
 			return {
 				departData: {},
+				doctorData: {},
 				currentTime: '',
 				clock: '',
 				deviceIp: '192.168.21.255',
@@ -78,34 +82,12 @@
 				dockerNameShow: true,
 				dockerDutyShow: true,
 				departIntroShow: true,
-				baseFormData: {
-					name: '',
-					age: '',
-					introduction: '',
-					sex: 2,
-					hobby: [5],
-					datetimesingle: 1627529992399
-				},
-				tableData: [{
-					"id": "A0045",
-					"name": "曹栋梁"
-				}, {
-					"id": "A0046",
-					"name": "孙傲"
-				}, {
-					"id": "A0047",
-					"name": "杨润泽"
-				}, {
-					"id": "A0049",
-					"name": "王凯"
-				}, {
-					"id": "A0050",
-					"name": "韩丽"
-				}]
+				patientNowQueueData: [],
+				patientQueueData: []
 			}
 		},
 		onShow() {
-			this.getDepartMentmsg(2)
+			this.getTimeMsg();
 		},
 		components: {
 			headerbg
@@ -117,14 +99,53 @@
 			}, 1000);
 		},
 		methods: {
+			//每5调用一次
+			getTimeMsg() {
+				this.getDepartMentmsg(1)
+				this.getDoctormsg(1)
+				this.getQueueMsg(1)
+				setInterval(() => {
+					this.getDepartMentmsg(1)
+					this.getDoctormsg(1)
+					this.getQueueMsg(1)
+				}, 5000);
+			},
 			getSonValue(res) {
 				this.topBarHeight = res;
 				console.log(res)
-			},
+			}, //调用部门信息
 			getDepartMentmsg(id) {
 				getDepartment(id).then(res => {
 					if (res.code == 200) {
 						this.departData = res.data
+					}
+				})
+			},
+			//调用医生信息
+			getDoctormsg(id) {
+				getDoctor(id).then(res => {
+					if (res.code == 200) {
+						this.doctorData = res.data
+					}
+				})
+			},
+			//调用病人排队信息
+			getQueueMsg(id) {
+				getQueue(
+					"id=" + id
+				).then(res => {
+					if (res.code == 200) {
+						this.patientQueueData = []; 
+						this.patientNowQueueData = [];
+						for (var i = 0; i < res.data.length; i++) {
+							if (res.data[i].status == 3) {
+								this.$set(this.patientQueueData, i, res.data[i]);
+							} else {
+								this.$set(this.patientNowQueueData, i, res.data[i]);
+							}
+						}
+						this.patientQueueData = this.patientQueueData.filter(item => item.id !==
+						''); //清除数据列表中的空数据 
 					}
 				})
 			},

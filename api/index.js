@@ -14,3 +14,9 @@ export function getDepartment(params) {
 export function getDoctor(params) {
 	return http.get('/dev-api/system/doc/' + params)
 }
+//页面初始化获取的信息
+// export function getLoadingMsg(params) {
+// 	return http.get('dev-api/system/room/init?' + params,"")
+// }
+
+
