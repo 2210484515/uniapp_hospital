@@ -18,7 +18,7 @@
 					<text class="departNr" style="margin-top: 15rpx;">个人经历介绍:</text>
 					<view class="departNr" @tap="nrIntroClick">
 						<text v-if="nrIntroShow">{{doctorData.description}}</text>
-						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生的个人经历介绍" />
+						<textarea v-else @blur="nrIntroBlur" placeholder="请输入医生1的个人经历介绍" />
 					</view>
 				</view>
 				<view class="depart" style="margin-left: 20rpx;">
