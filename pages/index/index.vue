@@ -71,8 +71,8 @@
 	export default {
 		data() {
 			return {
-				imageList: '', // 选中的图片路径
-				placeholderImage: '../../static/images/docker.jpg' ,// 自定义的占位图路径
+				imageList: '',
+				placeholderImage: '../../static/images/docker.jpg' ,
 				departData: {},
 				doctorData: {},
 				currentTime: '',
