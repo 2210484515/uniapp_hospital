@@ -1,5 +1,5 @@
 const http = {
-	baseUrl: 'http://muteki.top:9090',
+	baseUrl: 'http://172.16.3.52:81',
 	//请求方法
 	request(config) {
 		//config:请求配置对象,参照uniapp文档
@@ -17,19 +17,17 @@ const http = {
 				})
 		})
 	},
-	get(url, data, auth) {
+	get(url, data) {
 		return this.request({
 			url: url,
 			data: data,
-			auth: auth,
 			method: "GET"
 		})
 	},
-	post(url, data, auth) {
+	post(url, data) {
 		return this.request({
 			url: url,
 			data: data,
-			auth: auth,
 			method: "POST"
 		})
 	}

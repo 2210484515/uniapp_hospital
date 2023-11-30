@@ -3,14 +3,16 @@
 		<view class="main">
 			<headerbg @sendDefault="getSonValue" :time="currentTime" :timeClock="clock"></headerbg>
 			<view class="departmentName" @tap="departClick">
-				<text v-if="departShow">科室名称</text>
+				<text v-if="departShow">{{departData.name}}</text>
 				<input v-else class="uni-input" @blur="departBlur" placeholder="请输入科室名称" />
 			</view>
 			<view class="departMain">
 				<view class="depart">
 					<image src="../../static/images/docker.jpg" mode="aspectFill"></image>
-					<text class="departZy" v-if="dockerDutyShow" @tap="dockerDutyClick">主治医师</text>
-					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生职位" />
+					<text class="departZy" style="margin-top: 10rpx;" v-if="dockerDutyShow"
+						@tap="dockerDutyClick">主治医师</text>
+					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生职位"
+						style="margin-top: 10rpx;" />
 					<text v-if="dockerNameShow" class="departZy" @tap="dockerClick">黄小明</text>
 					<input v-else class="uni-input" @blur="dockerBlur" placeholder="请输入医生姓名" />
 					<text class="departNr" style="margin-top: 15rpx;">个人经历介绍:</text>
@@ -24,12 +26,7 @@
 				<view class="depart" style="margin-left: 20rpx;">
 					<text class="departIntroduce">科室介绍</text>
 					<text v-if="departIntroShow" class="deIntroContent" @tap="departIntroClick">
-						肛肠科是医院的重要临床科室之一，专注于诊治与肛门、直肠相关的疾病，提供全面的医疗服务和疾病预防工作。
-						专业特色：
-						肛肠镜检查：提供高质量的肛肠镜检查服务，早期发现和治疗肠道疾病，保障患者的健康。
-						微创治疗：肛肠科拥有先进的微创治疗设备，能够进行微创手术、激光治疗等，减少患者的疼痛和恢复时间。
-						医疗团队：
-						肛肠科拥有一支专业的医疗团队，包括资深的肛肠科医生、护士和技术人员，他们致力于为患者提供高质量的医疗护理和个性化的治疗方案。
+						{{departData.description}}
 					</text>
 					<textarea v-else @blur="departIntroBlur" placeholder="请输入科室的介绍" />
 				</view>
@@ -47,22 +44,48 @@
 					</uni-td>
 				</uni-tr>
 			</uni-table>
+			<view class="deviceIp">
+				<image src="../../static/images/phone.png" mode="aspectFill">
+					<text>{{deviceIp}}</text>
+					<image src="../../static/images/share.png" mode="aspectFill">
+						<text>{{localIp}}</text>
+						<image src="../../static/images/collect.png" mode="aspectFill">
+							<text>{{vsNumber}}</text>
+							<image src="../../static/images/logo2.png" class="imgLogo" mode="aspectFill">
+								<text>佳人生活国际有限公司</text>
+
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import headerbg from "@/components/headerbg.vue"
+	import {
+		getDepartment
+	} from "@/api/index.js"
 	export default {
 		data() {
 			return {
+				departData: {},
 				currentTime: '',
 				clock: '',
+				deviceIp: '192.168.21.255',
+				localIp: '192.168.21',
+				vsNumber: '141',
 				departShow: true,
 				nrIntroShow: true,
 				dockerNameShow: true,
 				dockerDutyShow: true,
 				departIntroShow: true,
+				baseFormData: {
+					name: '',
+					age: '',
+					introduction: '',
+					sex: 2,
+					hobby: [5],
+					datetimesingle: 1627529992399
+				},
 				tableData: [{
 					"id": "A0045",
 					"name": "曹栋梁"
@@ -81,8 +104,8 @@
 				}]
 			}
 		},
-		onLoad() {
-
+		onShow() {
+			this.getDepartMentmsg(2)
 		},
 		components: {
 			headerbg
@@ -97,6 +120,13 @@
 			getSonValue(res) {
 				this.topBarHeight = res;
 				console.log(res)
+			},
+			getDepartMentmsg(id) {
+				getDepartment(id).then(res => {
+					if (res.code == 200) {
+						this.departData = res.data
+					}
+				})
 			},
 			getCurrentTime() {
 				let date = new Date();
@@ -226,7 +256,7 @@
 
 	.depart image {
 		width: 80%;
-		height: 700rpx;
+		height: 300rpx;
 	}
 
 	.uni-input {
@@ -278,5 +308,30 @@
 
 	.odd-row {
 		background-color: #EFEFEF;
+	}
+
+	.deviceIp {
+		width: 96%;
+		height: 40rpx;
+		margin: auto;
+		margin-top: 20rpx;
+		display: flex;
+		font-size: 18rpx;
+
+		image {
+			width: 20rpx;
+			height: 20rpx;
+			margin-top: 2rpx;
+		}
+
+		text {
+			margin-right: 20rpx;
+		}
+
+		.imgLogo {
+			width: 40rpx;
+			margin-top: -10rpx;
+			height: 40rpx;
+		}
 	}
 </style>

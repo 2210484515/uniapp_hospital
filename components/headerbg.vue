@@ -2,7 +2,7 @@
 	<view>
 		<view class="top_bgimg" :style="'height:'+topBarHeight+'rpx;'">
 			<view class="top_cont" :style="'height:'+ tabBarHeight+'rpx;margin-top:'+stateBarHeight+'rpx;'">
-				<image src="../static/images/logo1.png">
+				<image src="../static/images/logo1.png" @tap="gotoPage">
 				<view style="position: absolute;right: 25rpx;">{{time}}</view>
 				<view style="position: absolute;top:60rpx;right: 70rpx;font-size: 30rpx;">{{timeClock}}</view>
 			</view>
@@ -29,6 +29,13 @@
 			time: {
 				type: String,
 				default: ''
+			}
+		},
+		methods:{
+			gotoPage(){
+				uni.navigateTo({
+					url:'/pages/index/subScreen/subScreen'
+				})
 			}
 		},
 		mounted: function() {

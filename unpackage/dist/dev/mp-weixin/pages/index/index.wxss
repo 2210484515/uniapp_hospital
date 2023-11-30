@@ -85,7 +85,7 @@
 }
 .depart image {
   width: 80%;
-  height: 700rpx;
+  height: 300rpx;
 }
 .uni-input {
   width: 300rpx;
@@ -129,5 +129,26 @@
 }
 .odd-row {
   background-color: #EFEFEF;
+}
+.deviceIp {
+  width: 96%;
+  height: 40rpx;
+  margin: auto;
+  margin-top: 20rpx;
+  display: flex;
+  font-size: 18rpx;
+}
+.deviceIp image {
+  width: 20rpx;
+  height: 20rpx;
+  margin-top: 2rpx;
+}
+.deviceIp text {
+  margin-right: 20rpx;
+}
+.deviceIp .imgLogo {
+  width: 40rpx;
+  margin-top: -10rpx;
+  height: 40rpx;
 }
 
