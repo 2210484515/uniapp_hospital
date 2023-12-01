@@ -8,8 +8,7 @@
 			</view>
 			<view class="departMain">
 				<view class="depart">
-					<!-- <image src="../../static/images/docker.jpg" mode="aspectFill"></image> -->
-					<image :src="imageList || placeholderImage" mode="aspectFill" @click="chooseImage()""></image>
+					<image :src="imageList || placeholderImage" mode="aspectFill" @click="chooseImage()"></image>
 					<text class="departZy" style="margin-top: 10rpx;" v-if="dockerDutyShow"
 						@tap="dockerDutyClick">{{doctorData.position}}</text>
 					<input v-else class="uni-input" @blur="dockerDutyBlur" placeholder="请输入医生的职位"
@@ -90,7 +89,7 @@
 			}
 		},
 		onShow() {
-			this.getTimeMsg();
+			//this.getTimeMsg();
 		},
 		components: {
 			headerbg
